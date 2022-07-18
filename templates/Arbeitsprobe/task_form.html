@@ -1,0 +1,109 @@
+{% include 'Arbeitsprobe/landing.html' %}
+{% load icon %}
+{% load static %}
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
+
+<div class="popup">
+    <form autocomplete="off" action="" method="post">
+        {% csrf_token %}
+        {# structuring the header of the pop up #}
+        <div class="inline-to-block spacing">
+            <div class="input centered-spaced-alignment input-title input-height" id="id_new-task-title">
+                {{ form.title }}
+            </div>
+            <div class="input centered-spaced-alignment input-close-button input-height">
+                {# in forms the default type for buttons is 'submit' so this needs to be set explicitely #}
+                <button id="id_close-button-new-task" type="button" class="button close-button" onclick="history.back();">
+                    <i class="popup-icons">{% icon 'x' %}</i>
+                </button>
+            </div>
+        </div>
+        {# structuring the body of the pop up #}
+        <div class="inline-to-block spacing">
+            {# column containing deadline duration and priority #}
+            <div class="task-input-column-width">
+                {# row containing deadline and duration #}
+                <div class="centered-spaced-alignment">
+                    {# column containing deadline #}
+                    <div class="deadline-input-column-width">
+                        <p class="task-input-labels">
+                            Deadline:
+                        </p>
+                        <div class="input input-height centered-spaced-alignment">
+                            <button type="button" class="button toggle-button" id="id_deadline-date-prev" disabled>
+                                {% icon "chevron-left" %}
+                            </button>
+                            {{ form.deadline_date }}
+                            <button type="button" class="button toggle-button" id="id_deadline-date-next">
+                                {% icon "chevron-right" %}
+                            </button>
+                        </div>
+                        <div class="input input-height spacing-top centered-spaced-alignment">
+                            <button type="button" class="button toggle-button" id="id_deadline-time-prev">
+                                {% icon "chevron-left" %}
+                            </button>
+                            {{ form.deadline_time }}
+                            <button type="button" class="button toggle-button" id="id_deadline-time-next">
+                                {% icon "chevron-right" %}
+                            </button>
+                        </div>
+                    </div>
+                    {# column containing duration #}
+                    <div>
+                        <p class="task-input-labels">
+                            Duration:
+                        </p>
+                        <div class="input-duration">
+                            <div class="centered-spaced-alignment">
+                                <button type="button" class="button" id="id_duration-h-next">
+                                    {% icon "chevron-up" %}
+                                </button>
+                                <button type="button" class="button" id="id_duration-min-next">
+                                    {% icon "chevron-up" %}
+                                </button>
+                            </div>
+                            {{ form.duration }}
+                            <div class="centered-spaced-alignment">
+                                <button type="button" class="button" id="id_duration-h-prev">
+                                    {% icon "chevron-down" %}
+                                </button>
+                                <button type="button" class="button" id="id_duration-min-prev">
+                                    {% icon "chevron-down" %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {# row containing priority #}
+                <div class="centered-spaced-alignment spacing-top">
+                    <p class="task-input-labels vertical-centered">
+                        Priority:
+                    </p>
+                    <div class="input input-priority centered-spaced-alignment input-height">
+                        {{ form.priority }}
+                    </div>
+                </div>
+            </div>
+            {# column containing description #}
+            <div class="input input-description line-break">
+                <div class="djdt-scroll">
+
+                </div>
+                {{ form.description }}
+            </div>
+        </div>
+        {# submit button #}
+        <button id="id_submit-button-new-task" type="submit" class="submit-button" disabled>
+            {% icon "check" class="submit-icon" %}
+        </button>
+    </form>
+</div>
+<div class="overlay" id="id_overlay-new-task"></div>
+
+{# at the bottom where the file is loaded to solve firefox issues #}
+<script src="{% static 'smart-planner/task_form_formatting.js' %}"></script>
+
+

@@ -1,0 +1,514 @@
+:root {
+  --primary: #334b7b;
+  --secondary: #f57f00;
+  --text: #000000;
+  --secondary-light: #febe80;
+  --primary-light: #5a76ae;
+  --background-grey: #f2f2f2;
+  --searchbar-grey: #aba8a5;
+  --sidebar-grey: #d3d1d0;
+  --success: #27ae60;
+  --warning: #e2b93b;
+  --error: #eb5757;
+  --white: #ffffff;
+  --font: 'Roboto', Verdana, sans-serif;
+   --inputbox-height: 53px;
+
+  --spacing: 5px;
+  --double-spacing: calc(2 * var(--spacing));
+
+  /* using calculation and percentage instead of a fixed value makes the popup scalable */
+  --inputbox-width: calc((100% - var(--double-spacing)));
+  --title-inputbox-width: calc(var(--inputbox-width) -  var(--inputbox-height) );
+  --description-inputbox-width: 55%;
+  --column-inputboxes-width: calc(100% - var(--spacing) - var(--description-inputbox-width));
+  --duration-inputbox-width: 95px;
+  --deadline-inputbox-width: calc(100% - var(--spacing) - var(--duration-inputbox-width));
+  --priority-inputbox-width: calc(100% - 80px);
+
+  --duration-inputbox-height: calc(var(--inputbox-height) * 2 + var(--spacing));
+
+  --outer-border-radius: 12px;
+  --inner-border-radius: 6px;
+
+  --inputtext-fontweight: normal;
+  --imputtext-fontsize: 20px;
+
+  --calendarmonth-fontsize: 16px;
+  --calendarday-fontsize: 14px;
+  --calenderitem-fontsize: 12px;
+
+  --calendar-day-size: 40px;
+}
+
+body {
+  font-size: .875rem;
+  font-family: var(--font);
+  background-color: var(--background-grey);
+}
+/*
+ * Navbar
+ */
+
+.navbar-top {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: 1rem;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+  background-color: var(--primary) !important;
+}
+.task-header{
+  background-color: var(--primary-light) !important;
+}
+/* Headings*/
+
+.h1 {
+  font-size: 355%;
+  line-height: 61.2px;
+  color: var(--white);
+}
+
+
+.bold-text {
+  font-size: 140%;
+  line-height: 28px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: -5px;
+}
+
+.large-text {
+  font-size: 140%;
+  line-height: 28px;
+}
+
+.greyout {
+  filter: grayscale(100%);
+}
+
+/* Buttons */
+.basic-button {
+    /* color settings */
+    background-color: var(--secondary)!important;
+    border-style: solid;
+    border-color: var(--secondary);
+    color: var(--white);
+    /* size and placement settings */
+    margin: 10px;
+    width: 150px;
+    padding: 5px;
+    border-radius: 8px;
+    /* text settings*/
+    font-size: 120%;
+}
+.basic-button:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+/* --------- General formatting ---------- */
+
+.vertical-centered {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+}
+
+.centered-spaced-alignment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.centered-spaced-alignment-tasks{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+/* same as centered-spaced-alignment but changes with different screen size*/
+.inline-to-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.spaced-alignment {
+    display: flex;
+    justify-content: space-between;
+}
+
+.spacing {
+    margin: var(--spacing);
+}
+
+.spacing-top {
+    margin-top: var(--spacing);
+}
+
+.line-break {
+    overflow-wrap: break-word; /* use this for a line break within a word */
+}
+
+.clickable {
+    pointer-events: none;
+}
+
+.clickable.active {
+    pointer-events: auto;
+}
+
+/*-------- Popup -------*/
+
+.overlay {
+    position: fixed;
+    opacity: 1;
+    z-index: 9999; /* needs to be less than the popups z-index but more than every other */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-grey);
+    border-radius: var(--outer-border-radius);
+    z-index: 10000; /*popup shows up over the other stuff*/
+    width: 80%;
+    max-width: 960px;
+    padding: var(--double-spacing);
+}
+
+/* general styling for the input fields */
+/* corresponds to shape and color of the background and positioning of the items in it*/
+/* is not the input field itself */
+.input {
+    background-color: var(--white);
+    padding-left: var(--double-spacing);
+    padding-right: var(--double-spacing);
+}
+
+.input-height {
+    height: var(--inputbox-height);
+}
+
+/* special styling for specific input fields */
+/* width of the task input columns */
+.task-input-column-width {
+    width: var(--column-inputboxes-width);
+}
+
+.deadline-input-column-width {
+    width: var(--deadline-inputbox-width);
+}
+
+/* styling of the input field labels */
+.task-input-labels {
+    margin-bottom: 0;
+    font-size: var(--imputtext-fontsize);
+}
+
+/* styling of all the elements in both of the lower rows in the event popup */
+.event-input-elements {
+    width: var(--inputbox-width);
+}
+
+.input-close-button {
+    padding: 0;
+    border-top-right-radius: var(--inner-border-radius);
+    width: var(--inputbox-height);
+}
+
+.input-title {
+    background-color: var(--secondary-light);
+    border-top-left-radius: var(--inner-border-radius);
+    width: var(--title-inputbox-width);
+}
+
+/*.active works similar as disabled but is available for all objects not only such as buttons*/
+.input-title.active {
+    background-color: var(--secondary);
+}
+
+.input-description {
+    width: var(--description-inputbox-width);
+    height: 194px;
+    padding-bottom: var(--spacing);
+    padding-top: var(--spacing);
+}
+
+.input-priority {
+    width: var(--priority-inputbox-width);
+    height: var(--inputbox-height);
+}
+
+.input-duration {
+    background-color: var(--white);
+    width: var(--duration-inputbox-width);
+    height: var(--duration-inputbox-height);
+}
+
+/*base formatting for all widget classes*/
+.widget-inputs {
+    border: none;
+    font-size: var(--imputtext-fontsize);
+    background-color: transparent;
+}
+
+/* special cases for specific widget classes*/
+
+/* same formatting for date and time fields*/
+.widget-time-fields {
+    text-align: center;
+    color: var(--searchbar-grey);
+    cursor: text;
+}
+
+.widget-time-fields.active {
+    color: var(--text);
+}
+
+/* same formatting for location and comment field */
+.widget-text-fields {
+    text-align: left;
+    width: 85%;
+}
+
+.widget-category {
+    width: 100%;
+}
+
+.widget-title {
+    color: var(--white);
+    font-weight: bold;
+    width: 100%;
+}
+
+.widget-title::placeholder {
+    color: var(--white);
+}
+
+.widget-duration {
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    cursor: text;
+}
+
+.widget-description {
+    width: 100%;
+    height: 100%;
+}
+
+.widget-color {
+    width: 25px;
+    height: 25px;
+    padding: 0 !important;
+}
+
+/* icon color */
+.popup-icons {
+    color: var(--searchbar-grey);
+}
+
+.popup-icons.active {
+    color: var(--text);
+}
+
+/* location icon positioning */
+.popup-location-icon {
+    padding-right: 5px;
+}
+
+/* general button styling */
+.button {
+    background-color: transparent;
+    border: none;
+}
+
+/* special styling for specific buttons */
+/* align toggle icons with title */
+.toggle-button {
+    padding-right: 0;
+    padding-left: 0;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.toggle-button:disabled {
+    color: var(--searchbar-grey);
+}
+
+.close-button {
+    margin: auto;
+}
+
+/* Button to submit/save event */
+.submit-button {
+    /* color settings */
+    background-color: var(--secondary);
+    border: none;
+    color: var(--white);
+
+    /* icon position */
+    margin: auto;
+
+    /* shape */
+    border-radius: 50%; /* round */
+    height: var(--inputbox-height);
+    width: var(--inputbox-height);
+
+    /* position  */
+    position: absolute; /* fixed position within the popup */
+    bottom: var(--spacing);
+    right: var(--spacing);
+}
+
+.submit-button:disabled {
+    background-color: var(--secondary-light);
+}
+
+/* change feather icon */
+.submit-icon {
+    stroke-width: 3;
+}
+
+/* special styling cases for input widgets */
+:focus{
+    outline: none;
+    background-color: transparent;
+}
+
+::placeholder {
+    color: var(--searchbar-grey);
+    font-weight: var(--inputtext-fontweight);
+}
+
+
+/* to remove calendar icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+
+.accordion {
+    background-color: inherit;
+    padding: 0 var(--double-spacing);
+    margin: 0;
+    position: relative;
+    width: calc(100%/4);
+}
+
+/* formatting of buttons */
+.background-accordion {
+    font-size: 10px;
+    background-color: #B3B6BF;
+    border-radius: var(--inner-border-radius);
+    padding: var(--spacing);
+    margin: 18px 0 var(--spacing) 0;
+    width: 100%;
+}
+
+.accordion-button {
+    font: inherit;
+    font-size: var(--calenderitem-fontsize);
+    color: white !important;
+    position: relative;
+    left: -5px;
+    top: -25px;
+    background-color: var(--primary) !important;
+    width: fit-content;
+    height: 20px;
+    border-radius: var(--inner-border-radius);
+    padding: var(--spacing);
+    margin: var(--double-spacing) 0 -20px 0;
+
+}
+
+.accordion-button:not(.collapsed) {
+    color: white !important;
+    background-color: var(--primary) !important;
+}
+
+/* remove the predefined toggling icon */
+.accordion-button::after {
+    width: 16px;
+    height: 16px;
+    margin: 0 -3px;
+    background-color: inherit;
+    background-size: 100%;
+}
+
+/* this is to access the default toggling icons */
+.accordion-button:not(.collapsed)::after {
+    background-image: none;
+}
+.accordion-button.collapsed::after {
+    background-image: none;
+}
+
+.list-group-item-task {
+    font-size: var(--calenderitem-fontsize);
+    background-color: var(--background-grey);
+    list-style-type: none;
+    padding: 8px var(--spacing);
+    border-radius: var(--inner-border-radius);
+    margin: var(--spacing) var(--spacing) var(--double-spacing) var(--spacing) !important;
+    cursor: move;
+}
+
+.list-group-item-task a {
+    text-decoration: none;
+}
+
+/* horizontal line */
+hr:not([size]) {
+    color: var(--primary);
+    display: flex;
+    position: sticky;
+    text-align: center;
+    height: 2px;
+    border: 0;
+    margin: var(--spacing) 0;
+    padding: 0;
+    opacity: 1;
+    border-radius: var(--inner-border-radius);
+}
+
+.list-group-item-task hr, .popup hr, .events-daily-single-appointments hr {
+    height: 3px !important;
+}
+
+/*check box*/
+.form-check-input:checked[type=checkbox]{
+    background-image: none;
+}
+
+.form-check-input {
+    color: var(--primary);
+    background-color: var(--white) !important;
+    border-color: var(--primary);
+}
+
+.form-check-input[type=checkbox] {
+    border-color: var(--primary);
+    background-color: var(--white) !important;
+}
+
+.form-check-input:checked[type=checkbox] {
+    border-color: var(--primary);
+    background-color: var(--white) !important;
+}
+
+
+

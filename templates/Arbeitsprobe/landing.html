@@ -1,0 +1,172 @@
+{% load bootstrap5 %}
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The SmartUni">
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    <!-- Custom styles for this template -->
+    <link href="{% static 'smart-planner/basics.css' %}" rel="stylesheet">
+
+    {% block extracss %}{% endblock %}
+</head>
+
+    <!-- Calculate column width for tasks-->
+<script>
+    var columns = 0;
+    if ("{{ high_prio_task_count }}" !== 0) {
+        columns +=1;
+    }
+    if ("{{ medium_prio_task_count }}" !== 0) {
+        columns +=1;
+    }
+    if ("{{ low_prio_task_count }}" !== 0) {
+        columns +=1;
+    }
+    if ("{{ done_tasks }}") {
+        columns +=1;
+    }
+    col_width = 100/columns
+</script>
+<body>
+    <header class="navbar-top">
+        <div class="h1 text-center">
+            Make Your Daily University Life Smarter with SmartUni!
+        </div>
+    </header>
+    {% block content %}
+        <div class = "p-3 text-center">
+            <p class="large-text"> This is a small excerpt of the SmartUni study Project. <br>
+            In general SmartUni is an AI driven tool which helps you intelligently schedule your university work,
+            and to connect with the best people to achieve your goals.  <br>
+            Here you will only se the create tasks functionality</p>
+            <button class="basic-button" onclick ="window.location.href += 'task/new/'">
+                    Create Task
+            </button>
+        </div>
+        <div class = "p-3 text-center" style="background: var(--primary-light)">
+            <p class="bold-text"> Your Tasks </p>
+        </div>
+        {% if task_list %}
+            <div class="centered-spaced-alignment-tasks">
+                <div class="accordion" id="id_task-accordion_high">
+                <!-- Start with high priority tasks -->
+                    <div class="background-accordion">
+                        <button id="buttonHigh" class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#id_collapseHigh">
+                            HIGH
+                            <span class="badge rounded-pill"> {{ high_prio_task_count }} </span>
+                        </button>
+                        <div id="id_collapseHigh" class="accordion-collapse">
+                            {% for i in open_tasks %}
+                                {% if i.priority == 3 %}
+                                    <li class="list-group-item-task" data-id="{{ i.id }}"
+                                        data-duration="{{ i.duration }}">
+                                        <a href="{% url 'complete' pk=i.id %}" id="{{ i.id }}">
+                                            <input class="form-check-input me-1" type="checkbox"
+                                                   onclick="window.location.href =
+                                                                       document.getElementById('{{ i.id }}').href">
+                                        </a>
+                                        {{ i.title }}
+                                        <hr/>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+            </div>
+            <!-- Medium priority tasks -->
+                <div class="accordion" id="id_task-accordion_medium">
+                    <div class="background-accordion">
+                        <button id="buttonMedium" class="accordion-button" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#id_collapseMedium">
+                            MEDIUM
+                            <span class="badge rounded-pill"> {{ medium_prio_task_count }} </span>
+                        </button>
+                        <div id="id_collapseMedium" class="accordion-collapse">
+                            {% for i in open_tasks %}
+                                {% if i.priority == 2 %}
+                                    <li class="list-group-item-task" data-id="{{ i.id }}"
+                                        data-duration="{{ i.duration }}">
+                                        <a href="{% url 'complete' pk=i.id %}" id="{{ i.id }}">
+                                            <input class="form-check-input me-1" type="checkbox"
+                                                   onclick="window.location.href =
+                                                                       document.getElementById('{{ i.id }}').href">
+                                        </a>
+                                        {{ i.title }}
+                                        <hr/>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion" id="id_task-accordion_low">
+                     <!-- Low priority tasks -->
+                    <div class="background-accordion">
+                        <button id="buttonLow" class="accordion-button" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#id_collapseLow">
+                            LOW
+                            <span class="badge rounded-pill"> {{ low_prio_task_count }} </span>
+                        </button>
+                        <div id="id_collapseLow" class="accordion-collapse">
+                            {% for i in open_tasks %}
+                                {% if i.priority == 1 %}
+                                    <li class="list-group-item-task" data-id="{{ i.id }}"
+                                        data-duration="{{ i.duration }}">
+                                        <a href="{% url 'complete' pk=i.id %}" id="{{ i.id }}">
+                                            <input class="form-check-input me-1" type="checkbox"
+                                                   onclick="window.location.href =
+                                                           document.getElementById('{{ i.id }}').href">
+                                        </a>
+                                        {{ i.title }}
+                                        <hr/>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion" id="id_task-accordion">
+                   <!-- Display the done tasks in a separate section -->
+                    <div class="background-accordion">
+                        <button id="id_doneTasksButton" class="accordion-button" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#id_collapseDone">
+                            DONE
+                        </button>
+                        <div id="id_collapseDone" class="accordion-collapse">
+                            {% for i in done_tasks %}
+                                <li class="list-group-item-task" data-id="{{ i.id }}"
+                                    data-duration="{{ i.duration }}" data-done="true">
+                                    <a href="{% url 'complete' pk=i.id %}" id="{{ i.id }}">
+                                        <input class="form-check-input me-1" type="checkbox"
+                                               onclick="window.location.href =
+                                                       document.getElementById('{{ i.id }}').href" checked>
+                                    </a>
+                                    <s>{{ i.title }}</s>
+                                    <hr/>
+                                </li>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In case there are no tasks to display -->
+        {% else %}
+            <div class="text-center">
+                <p class="large-text" >
+                    There are currently no tasks. <br>
+                    Add a new task.
+                </p>
+            </div>
+        {% endif %}
+        </div>
+        </div>
+    </div>
+
+    {% endblock %}
+
+</body>
+
